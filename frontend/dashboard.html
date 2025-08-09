@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - TikTok Clone</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    table {
+      width: 90%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background-color: #222;
+      color: #fff;
+      margin-top: 30px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #333;
+      text-align: left;
+    }
+
+    th {
+      background-color: #111;
+      color: #ff2d55;
+    }
+
+    tr:hover {
+      background-color: #333;
+    }
+
+    .delete-btn {
+      background: red;
+      border: none;
+      padding: 5px 10px;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="menu">
+    <button onclick="location.href='index.html'">🏠 Home</button>
+    <button onclick="location.href='dashboard.html'">📊 Dashboard</button>
+    <button onclick="alert('Admin Dashboard for TikTok Clone App')">ℹ️ About</button>
+  </div>
+
+  <h1>📁 Video Dashboard</h1>
+
+  <table id="videoTable">
+    <thead>
+      <tr>
+        <th>Filename</th>
+        <th>Size (KB)</th>
+        <th>Preview</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const API_BASE = 'http://127.0.0.1:5000';
+
+    async function loadDashboard() {
+      const res = await fetch(`${API_BASE}/videos`);
+      const files = await res.json();
+
+      const tableBody = document.querySelector('#videoTable tbody');
+      tableBody.innerHTML = '';
+
+      for (const file of files) {
+        const res = await fetch(`${API_BASE}/video-info/${file}`);
+        const data = await res.json();
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = \`
+          <td>\${data.name}</td>
+          <td>\${data.size}</td>
+          <td><video src="\${API_BASE}/uploads/\${data.name}" width="100" controls></video></td>
+          <td><button class="delete-btn" onclick="deleteVideo('\${data.name}')">Delete</button></td>
+        \`;
+        tableBody.appendChild(tr);
+      }
+    }
+
+    async function deleteVideo(filename) {
+      if (!confirm(\`Are you sure you want to delete "\${filename}"?\`)) return;
+
+      await fetch(`${API_BASE}/delete-video/${filename}`, { method: 'DELETE' });
+      loadDashboard();
+    }
+
+    loadDashboard();
+  </script>
+</body>
+</html>
