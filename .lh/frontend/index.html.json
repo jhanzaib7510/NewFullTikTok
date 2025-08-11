@@ -1,0 +1,18 @@
+{
+    "sourceFile": "frontend/index.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1754856277593,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1754856277593,
+            "name": "Commit-0",
+            "content": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\" />\n  <title>FTikTok — Home</title>\n  <link href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap\" rel=\"stylesheet\">\n  <link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"menu\">\n      <button onclick=\"location.href='index.html'\">🏠 Home</button>\n      <button onclick=\"location.href='dashboard.html'\">📊 Dashboard</button>\n      <button onclick=\"document.getElementById('videoInput').click()\">⬆️ Upload</button>\n      <button onclick=\"alert('FTikTok App by Jhanzaib')\">ℹ️ About</button>\n    </div>\n\n    <h1>🎬 FTikTok — Share Your Moments</h1>\n    <p class=\"small\">Upload videos and explore the latest content from the community.</p>\n\n    <form id=\"uploadForm\">\n      <input id=\"videoInput\" name=\"video\" accept=\"video/*\" type=\"file\" required />\n      <button type=\"submit\">Upload</button>\n      <span id=\"status\"></span>\n    </form>\n\n    <div style=\"height:12px;\"></div>\n    <div id=\"progressArea\" style=\"display:none;\">\n      <div class=\"progress\"><i id=\"progressBar\"></i></div>\n      <div class=\"small\" id=\"progressText\"></div>\n    </div>\n\n    <h2 style=\"margin-top:18px;\">🔥 Latest Videos</h2>\n    <div id=\"videoFeed\"></div>\n  </div>\n\n  <script src=\"script.js\"></script>\n</body>\n</html>\n"
+        }
+    ]
+}

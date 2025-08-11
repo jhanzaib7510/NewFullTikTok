@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FTikTok — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+
+video {
+  display: block;           /* Makes video a block element */
+  margin: 20px auto;        /* Centers horizontally */
+  max-width: 500px;         /* Medium max width */
+  width: 20%;              /* Responsive scaling */
+  height: auto;             /* Keeps aspect ratio */
+  background: #000;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 242, 234, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+video:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 0, 80, 0.5);
+}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="menu">
+      <button onclick="location.href='index.html'">🏠 Home</button>
+      <button onclick="location.href='dashboard.html'">📊 Dashboard</button>
+      <button onclick="alert('FTikTok App by Jhanzaib')">ℹ️ About</button>
+    </div>
+
+    <h1>📊 Dashboard</h1>
+    <p class="small">Your video performance and engagement statistics.</p>
+
+    <div class="stats">
+      <div class="stat-card">
+        <h2>🎥 Total Videos</h2>
+        <p id="totalVideos">0</p>
+      </div>
+      <div class="stat-card">
+        <h2>👀 Total Views</h2>
+        <p id="totalViews">0</p>
+      </div>
+      <div class="stat-card">
+        <h2>❤️ Total Likes</h2>
+        <p id="totalLikes">0</p>
+      </div>
+    </div>
+
+    <h2 style="margin-top:18px;">📈 Recent Activity</h2>
+    <ul id="activityLog" class="small"></ul>
+
+    <h2 style="margin-top:18px;">🎥 Recent Uploaded Videos</h2>
+    <div id="videoList" class="video-list"></div>
+  </div>
+
+  <script>
+    async function loadDashboard() {
+      try {
+        const res = await fetch("http://localhost:5000/dashboard");
+        const data = await res.json();
+
+        document.getElementById('totalVideos').textContent = data.totalVideos;
+        document.getElementById('totalViews').textContent = data.totalViews;
+        document.getElementById('totalLikes').textContent = data.totalLikes;
+
+        document.getElementById('activityLog').innerHTML =
+          data.recentActivity.map(item =>
+            `<li>📤 Uploaded: ${item.title} (${item.time})</li>`
+          ).join('');
+
+        document.getElementById('videoList').innerHTML =
+          data.recentActivity.map(item =>
+            `<video src="http://localhost:5000${item.url}" controls></video>`
+          ).join('');
+
+      } catch (err) {
+        console.error("Error loading dashboard:", err);
+      }
+    }
+    loadDashboard();
+  </script>
+</body>
+</html>

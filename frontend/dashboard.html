@@ -1,98 +1,94 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard - TikTok Clone</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FTikTok — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <style>
-    table {
-      width: 90%;
-      margin: 0 auto;
-      border-collapse: collapse;
-      background-color: #222;
-      color: #fff;
-      margin-top: 30px;
-    }
+video {
+  display: inline-block;      /* Puts videos next to each other */
+  vertical-align: top;        /* Aligns tops nicely */
+  margin: 10px;               /* Spacing between videos */
+  max-width: 250px;           /* Set a nice max size */
+  width: 100%;                /* Fill available space inside container */
+  height: 180px;              /* Fixed thumbnail height */
+  object-fit: cover;          /* Crop nicely */
+  background: #000;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 242, 234, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-    th, td {
-      padding: 12px 15px;
-      border: 1px solid #333;
-      text-align: left;
-    }
+video:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 0, 80, 0.5);
+}
 
-    th {
-      background-color: #111;
-      color: #ff2d55;
-    }
-
-    tr:hover {
-      background-color: #333;
-    }
-
-    .delete-btn {
-      background: red;
-      border: none;
-      padding: 5px 10px;
-      color: white;
-      cursor: pointer;
-      border-radius: 5px;
-    }
+.video-container {
+  text-align: center;         /* Center all inline videos */
+}
   </style>
 </head>
+
 <body>
-  <div class="menu">
-    <button onclick="location.href='index.html'">🏠 Home</button>
-    <button onclick="location.href='dashboard.html'">📊 Dashboard</button>
-    <button onclick="alert('Admin Dashboard for TikTok Clone App')">ℹ️ About</button>
+  <div class="container">
+    <div class="menu">
+      <button onclick="location.href='index.html'">🏠 Home</button>
+      <button onclick="location.href='dashboard.html'">📊 Dashboard</button>
+      <button onclick="alert('FTikTok App by Jhanzaib')">ℹ️ About</button>
+    </div>
+
+    <h1>📊 Dashboard</h1>
+    <p class="small">Your video performance and engagement statistics.</p>
+
+    <div class="stats">
+      <div class="stat-card">
+        <h2>🎥 Total Videos</h2>
+        <p id="totalVideos">0</p>
+      </div>
+      <div class="stat-card">
+        <h2>👀 Total Views</h2>
+        <p id="totalViews">0</p>
+      </div>
+      <div class="stat-card">
+        <h2>❤️ Total Likes</h2>
+        <p id="totalLikes">0</p>
+      </div>
+    </div>
+
+    <h2 style="margin-top:18px;">📈 Recent Activity</h2>
+    <ul id="activityLog" class="small"></ul>
+
+    <h2 style="margin-top:18px;">🎥 Recent Uploaded Videos</h2>
+    <div id="videoList" class="video-list"></div>
   </div>
 
-  <h1>📁 Video Dashboard</h1>
-
-  <table id="videoTable">
-    <thead>
-      <tr>
-        <th>Filename</th>
-        <th>Size (KB)</th>
-        <th>Preview</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
   <script>
-    const API_BASE = 'http://127.0.0.1:5000';
-
     async function loadDashboard() {
-      const res = await fetch(`${API_BASE}/videos`);
-      const files = await res.json();
-
-      const tableBody = document.querySelector('#videoTable tbody');
-      tableBody.innerHTML = '';
-
-      for (const file of files) {
-        const res = await fetch(`${API_BASE}/video-info/${file}`);
+      try {
+        const res = await fetch("http://localhost:5000/dashboard");
         const data = await res.json();
 
-        const tr = document.createElement('tr');
-        tr.innerHTML = \`
-          <td>\${data.name}</td>
-          <td>\${data.size}</td>
-          <td><video src="\${API_BASE}/uploads/\${data.name}" width="100" controls></video></td>
-          <td><button class="delete-btn" onclick="deleteVideo('\${data.name}')">Delete</button></td>
-        \`;
-        tableBody.appendChild(tr);
+        document.getElementById('totalVideos').textContent = data.totalVideos;
+        document.getElementById('totalViews').textContent = data.totalViews;
+        document.getElementById('totalLikes').textContent = data.totalLikes;
+
+        document.getElementById('activityLog').innerHTML =
+          data.recentActivity.map(item =>
+            `<li>📤 Uploaded: ${item.title} (${item.time})</li>`
+          ).join('');
+
+        document.getElementById('videoList').innerHTML =
+          data.recentActivity.map(item =>
+            `<video src="http://localhost:5000${item.url}" controls></video>`
+          ).join('');
+
+      } catch (err) {
+        console.error("Error loading dashboard:", err);
       }
     }
-
-    async function deleteVideo(filename) {
-      if (!confirm(\`Are you sure you want to delete "\${filename}"?\`)) return;
-
-      await fetch(`${API_BASE}/delete-video/${filename}`, { method: 'DELETE' });
-      loadDashboard();
-    }
-
     loadDashboard();
   </script>
 </body>

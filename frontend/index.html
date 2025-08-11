@@ -1,27 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TikTok Clone</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FTikTok — Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="menu">
-    <button onclick="location.href='index.html'">🏠 Home</button>
-    <button onclick="location.href='dashboard.html'">📊 Dashboard</button>
-    <button onclick="document.getElementById('videoInput').click()">⬆️ Upload</button>
-    <button onclick="alert('TikTok Clone App created by Zohaib')">ℹ️ About</button>
+  <div class="container">
+    <div class="menu">
+      <button onclick="location.href='index.html'">🏠 Home</button>
+      <button onclick="location.href='dashboard.html'">📊 Dashboard</button>
+      <button onclick="document.getElementById('videoInput').click()">⬆️ Upload</button>
+      <button onclick="alert('FTikTok App by Jhanzaib')">ℹ️ About</button>
+    </div>
+
+    <h1>🎬 FTikTok — Share Your Moments</h1>
+    <p class="small">Upload videos and explore the latest content from the community.</p>
+
+    <form id="uploadForm">
+      <input id="videoInput" name="video" accept="video/*" type="file" required />
+      <button type="submit">Upload</button>
+      <span id="status"></span>
+    </form>
+
+    <div style="height:12px;"></div>
+    <div id="progressArea" style="display:none;">
+      <div class="progress"><i id="progressBar"></i></div>
+      <div class="small" id="progressText"></div>
+    </div>
+
+    <h2 style="margin-top:18px;">🔥 Latest Videos</h2>
+    <div id="videoFeed"></div>
   </div>
-
-  <h1>🎬 TikTok Clone</h1>
-
-  <form id="uploadForm">
-    <input type="file" id="videoInput" name="video" accept="video/mp4" required />
-    <button type="submit">Upload Video</button>
-  </form>
-
-  <div id="videoFeed"></div>
 
   <script src="script.js"></script>
 </body>

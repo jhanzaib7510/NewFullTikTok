@@ -1,0 +1,18 @@
+{
+    "sourceFile": "frontend/aadashboard.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1754857253949,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1754857253949,
+            "name": "Commit-0",
+            "content": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\" />\n  <title>FTikTok — Dashboard</title>\n  <link href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap\" rel=\"stylesheet\">\n  <link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"menu\">\n      <button onclick=\"location.href='index.html'\">🏠 Home</button>\n      <button onclick=\"location.href='dashboard.html'\">📊 Dashboard</button>\n      <!-- <button onclick=\"document.getElementById('videoInput').click()\">⬆️ Upload</button> -->\n      <button onclick=\"alert('FTikTok App by Jhanzaib')\">ℹ️ About</button>\n    </div>\n\n    <h1>📊 Dashboard</h1>\n    <p class=\"small\">Your video performance and engagement statistics.</p>\n\n    <div class=\"stats\">\n      <div class=\"stat-card\">\n        <h2>🎥 Total Videos</h2>\n        <p id=\"totalVideos\">0</p>\n      </div>\n      <div class=\"stat-card\">\n        <h2>👀 Total Views</h2>\n        <p id=\"totalViews\">0</p>\n      </div>\n      <div class=\"stat-card\">\n        <h2>❤️ Total Likes</h2>\n        <p id=\"totalLikes\">0</p>\n      </div>\n    </div>\n\n    <h2 style=\"margin-top:18px;\">📈 Recent Activity</h2>\n    <ul id=\"activityLog\" class=\"small\"></ul>\n  </div>\n\n  <script>\n    // Example dummy data - replace with backend API calls\n    document.getElementById('totalVideos').textContent = 12;\n    document.getElementById('totalViews').textContent = 5423;\n    document.getElementById('totalLikes').textContent = 1287;\n\n    const log = [\n      \"Uploaded: My First TikTok (2 hours ago)\",\n      \"Gained 120 views (3 hours ago)\",\n      \"Liked a video by @alex (5 hours ago)\"\n    ];\n    document.getElementById('activityLog').innerHTML = log.map(item => `<li>${item}</li>`).join('');\n  </script>\n</body>\n</html>\n"
+        }
+    ]
+}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FTikTok — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="menu">
+      <button onclick="location.href='index.html'">🏠 Home</button>
+      <button onclick="location.href='dashboard.html'">📊 Dashboard</button>
+      <button onclick="alert('FTikTok App by Jhanzaib')">ℹ️ About</button>
+    </div>
+
+    <h1>📊 Dashboard</h1>
+    <p class="small">Your video performance and engagement statistics.</p>
+
+    <div class="stats">
+      <div class="stat-card">
+        <h2>🎥 Total Videos</h2>
+        <p id="totalVideos">0</p>
+      </div>
+      <div class="stat-card">
+        <h2>👀 Total Views</h2>
+        <p id="totalViews">0</p>
+      </div>
+      <div class="stat-card">
+        <h2>❤️ Total Likes</h2>
+        <p id="totalLikes">0</p>
+      </div>
+    </div>
+
+    <h2 style="margin-top:18px;">📈 Recent Activity</h2>
+    <ul id="activityLog" class="small"></ul>
+  </div>
+
+  <script>
+    async function loadDashboard() {
+      try {
+        const res = await fetch("/api/dashboard"); // Flask endpoint
+        const data = await res.json();
+
+        document.getElementById('totalVideos').textContent = data.totalVideos;
+        document.getElementById('totalViews').textContent = data.totalViews;
+        document.getElementById('totalLikes').textContent = data.totalLikes;
+
+        document.getElementById('activityLog').innerHTML =
+          data.recentActivity.map(item => {
+            if (item.type === "upload") {
+              return `<li>📤 Uploaded: ${item.title} (${item.time})</li>`;
+            } else if (item.type === "views") {
+              return `<li>👀 Gained ${item.count} views (${item.time})</li>`;
+            } else if (item.type === "like") {
+              return `<li>❤️ Liked a video by ${item.user} (${item.time})</li>`;
+            }
+          }).join('');
+      } catch (err) {
+        console.error("Error loading dashboard:", err);
+      }
+    }
+
+    loadDashboard();
+  </script>
+</body>
+</html>
